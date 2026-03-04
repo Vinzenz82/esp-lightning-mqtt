@@ -73,14 +73,14 @@ All fields are **optional**; partial updates are accepted.
 }
 ```
 
-| Field             | Type    | Range          | Default |
-|-------------------|---------|----------------|---------|
-| `indoor_mode`     | boolean | true / false   | true    |
-| `noise_floor`     | integer | 0 – 7          | 2       |
-| `watchdog`        | integer | 1 – 10         | 2       |
-| `spike_rejection` | integer | 1 – 11         | 2       |
-| `min_strikes`     | integer | 1, 5, 9, 16    | 1       |
-| `disturber_mask`  | boolean | true / false   | false   |
+| Field             | Type    | Range          | Default | Description |
+|-------------------|---------|----------------|---------|-------------|
+| `indoor_mode`     | boolean | true / false   | true    | Switches the AS3935 AFE gain preset. `true` = indoor (higher gain, attenuated for enclosed spaces); `false` = outdoor (lower gain, suited for open environments). Affects sensitivity and false-positive rate. |
+| `noise_floor`     | integer | 0 – 7          | 2       | Sets the analog noise floor threshold. Higher values require stronger signals to exceed the floor, reducing sensitivity to weak events but increasing immunity to background noise. Each step is roughly 65 µVrms. |
+| `watchdog`        | integer | 1 – 10         | 2       | Controls the watchdog threshold used for signal validation. Higher values make the detector more selective, rejecting shorter or weaker pulses. Increase if the device triggers on non-lightning signals. |
+| `spike_rejection` | integer | 1 – 11         | 2       | Sets the spike rejection threshold. The AS3935 uses this to suppress impulsive EMI spikes. Higher values reject more aggressively; too high a value may suppress real lightning events. |
+| `min_strikes`     | integer | 1, 5, 9, 16    | 1       | Minimum number of lightning events within the last 15 minutes before the interrupt fires. Use higher values (5, 9, 16) to reduce single-event false positives in noisy environments. |
+| `disturber_mask`  | boolean | true / false   | false   | When `true`, the AS3935 suppresses disturber interrupts — the device will not publish to `{base}/disturber`. Useful to reduce MQTT traffic in RF-noisy environments when disturber events are not needed. |
 
 Changes are persisted to NVS and applied immediately. The updated
 configuration is echoed to `{base}/config/get`.
