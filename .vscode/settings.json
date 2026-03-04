@@ -1,0 +1,18 @@
+{
+  "idf.currentSetup": "/home/vinzenz/esp/v5.5.1/esp-idf",
+  "idf.openOcdConfigs": [
+    "board/esp32c3-builtin.cfg"
+  ],
+  "idf.port": "/dev/ttyACM0",
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32c3"
+  },
+  "clangd.path": "/home/vinzenz/.espressif/tools/esp-clang/esp-19.1.2_20250312/esp-clang/bin/clangd",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=**",
+    "--compile-commands-dir=/home/vinzenz/workspace/esp-lightning-mqtt/build"
+  ],
+  "idf.monitorPort": "/dev/ttyACM0",
+  "idf.flashType": "UART"
+}

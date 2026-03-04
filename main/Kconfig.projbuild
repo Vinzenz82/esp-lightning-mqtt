@@ -1,0 +1,84 @@
+menu "ESP Lightning MQTT"
+
+    menu "Wi-Fi"
+        config WIFI_SSID
+            string "Wi-Fi SSID"
+            default "myssid"
+            help
+                SSID of the Wi-Fi network to connect to.
+
+        config WIFI_PASSWORD
+            string "Wi-Fi Password"
+            default "mypassword"
+            help
+                Password for the Wi-Fi network.
+    endmenu
+
+    menu "MQTT Broker"
+        config MQTT_BROKER_URL
+            string "MQTT Broker URL"
+            default "mqtt://192.168.1.10:1883"
+            help
+                URL of the MQTT broker (e.g. mqtt://192.168.1.10:1883).
+
+        config MQTT_USERNAME
+            string "MQTT Username"
+            default ""
+            help
+                Username for MQTT authentication (leave empty if not required).
+
+        config MQTT_PASSWORD
+            string "MQTT Password"
+            default ""
+            help
+                Password for MQTT authentication (leave empty if not required).
+
+        config MQTT_BASE_TOPIC
+            string "MQTT Base Topic"
+            default "esp-lightning-mqtt"
+            help
+                Base topic prefix. Full topic: <base>/<device_id>/<subtopic>.
+    endmenu
+
+    menu "AS3935 Sensor"
+        config AS3935_I2C_ADDR
+            hex "AS3935 I2C Address"
+            default 0x03
+            range 0x01 0x07
+            help
+                AS3935 I2C address. Default 0x03 (ADD pins to GND).
+
+        config AS3935_I2C_PORT
+            int "I2C Port Number"
+            default 0
+            range 0 1
+            help
+                ESP32-C3 I2C port number (0 or 1).
+
+        config AS3935_SDA_GPIO
+            int "I2C SDA GPIO"
+            default 6
+            help
+                GPIO number for I2C SDA line. Requires 4.7 kΩ pull-up to 3.3 V.
+
+        config AS3935_SCL_GPIO
+            int "I2C SCL GPIO"
+            default 7
+            help
+                GPIO number for I2C SCL line. Requires 4.7 kΩ pull-up to 3.3 V.
+
+        config AS3935_IRQ_GPIO
+            int "AS3935 IRQ GPIO"
+            default 4
+            help
+                GPIO number for AS3935 interrupt line (active-high).
+
+        config AS3935_INDOOR_MODE
+            bool "Indoor Mode"
+            default y
+            help
+                Enable indoor mode (higher noise floor tolerance).
+                Disable for outdoor deployment.
+    endmenu
+
+endmenu

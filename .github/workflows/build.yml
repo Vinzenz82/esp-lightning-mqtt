@@ -1,0 +1,50 @@
+name: Build & Lint
+
+on:
+  push:
+    branches: ["main", "feature-*"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: idf.py build (esp32c3)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build with ESP-IDF
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.3
+          target: esp32c3
+          command: idf.py build
+
+      - name: Upload binary size report
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            build/esp-lightning-mqtt.bin
+            build/esp-lightning-mqtt.map
+
+  lint:
+    name: clang-format check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+
+      - name: Check formatting
+        run: |
+          find main -name '*.c' -o -name '*.h' | \
+            xargs clang-format --dry-run --Werror --style=file
