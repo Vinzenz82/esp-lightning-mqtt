@@ -1,3 +1,22 @@
-idf_component_register(SRCS "hello_world_main.c"
-                       PRIV_REQUIRES spi_flash
-                       INCLUDE_DIRS "")
+idf_component_register(
+    SRCS
+        "main.c"
+        "utils/nvs_config.c"
+        "lightning/as3935.c"
+        "lightning/lightning_task.c"
+        "wifi/wifi_manager.c"
+        "mqtt/mqtt_payload.c"
+        "mqtt/mqtt_client.c"
+    INCLUDE_DIRS
+        "."
+    PRIV_REQUIRES
+        driver
+        esp_wifi
+        esp_netif
+        esp_event
+        mqtt
+        nvs_flash
+        esp_timer
+        json
+        lwip
+)
